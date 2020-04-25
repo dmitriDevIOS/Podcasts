@@ -15,5 +15,8 @@ struct Podcast: Decodable {
     var kind : String?
     var trackCount: Int?
     var trackName: String?
+    var artworkUrl100: String?
+    var feedUrl: String?
+    
     
 }

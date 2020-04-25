@@ -11,10 +11,7 @@ import Alamofire
 
 class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     
-    var podcasts = [
-        Podcast(artistName: "apple news",trackName : "iKakProsto"),
-        Podcast(artistName: "andro news", trackName: "Andrey Kovtun")
-    ]
+    var podcasts = [Podcast]()
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -25,7 +22,7 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
         setupSearchBar()
         setupTableView()
         
-       // tableView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5 , right: 5)
+        // tableView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5 , right: 5)
         
         
     }
@@ -34,6 +31,7 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     //MARK: Setup ui
     
     fileprivate func setupSearchBar() {
+        self.definesPresentationContext = true // allows us to go back and puts leftbarItem title (search in our case) 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.obscuresBackgroundDuringPresentation = false
@@ -41,12 +39,8 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     }
     
     fileprivate func setupTableView() {
-        
-        
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "PodcastCell")
-
-        
     }
     
     
@@ -56,8 +50,6 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
             self.podcasts = podcasts
             self.tableView.reloadData()
         }
-       
-        
     }
     
     
@@ -70,16 +62,10 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
-        //  let cell = UITableViewCell(style: .value1, reuseIdentifier:  "Cell")
-        //  cell.detailTextLabel?.text = podcast.name
-        
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "PodcastCell", for: indexPath) as! PodcastCell
-
+        
         cell.podcast = podcasts[indexPath.row]
-
+        
         return cell
     }
     
@@ -89,14 +75,34 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let episodesController = EpisodesController()
+        episodesController.podcast = podcasts[indexPath.row]
+        navigationController?.pushViewController(episodesController, animated: true)
+        
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "No companies available"
+        label.textColor = .purple
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return podcasts.count == 0 ? 150 : 0
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
         return UIView()
     }
     
-
+    
+    
+    
     
     
     
