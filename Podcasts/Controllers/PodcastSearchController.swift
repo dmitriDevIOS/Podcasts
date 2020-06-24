@@ -2,7 +2,7 @@
 //  PodcastSearchController.swift
 //  Podcasts
 //
-//  Created by Dmitrii Timofeev on 23/04/2020.
+//  Cr eated by Dmitrii Timofeev on 23/04/2020.
 //  Copyright © 2020 Dmitrii Timofeev. All rights reserved.
 //
 
@@ -15,12 +15,15 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     
     let searchController = UISearchController(searchResultsController: nil)
     
+    var timer : Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSearchBar()
         setupTableView()
+        
+        searchBar(searchController.searchBar, textDidChange: "english")
         
         // tableView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5 , right: 5)
         
@@ -46,10 +49,15 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
-            self.podcasts = podcasts
-            self.tableView.reloadData()
-        }
+   
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+ 
+            APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+                self.podcasts = podcasts
+                self.tableView.reloadData()
+            }
+        })
     }
     
     
@@ -84,12 +92,15 @@ class PodcastsSearchController : UITableViewController, UISearchBarDelegate {
     
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.text = "No companies available"
-        label.textColor = .purple
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        return label
+        
+
+            let label = UILabel()
+            label.text = "No podcasts available"
+            label.textColor = .purple
+            label.textAlignment = .center
+            label.font = UIFont.boldSystemFont(ofSize: 16)
+            return label
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

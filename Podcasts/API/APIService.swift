@@ -37,36 +37,33 @@ class APIService {
             
             do{
                 let jsonResult = try JSONDecoder().decode(SearchResults.self, from: data)
-                
                 completionHandler(jsonResult.results)
             } catch let error {
                 print("Decode error: \(error.localizedDescription)")
             }
-            
         }
-        
     }
     
-    func fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
+    func  fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
         
         let secureFeedUrl = feedUrl.contains("https") ? feedUrl : feedUrl.replacingOccurrences(of: "http", with: "https")
         
         guard let url = URL(string: secureFeedUrl) else { return }
         
-        let parser = FeedParser(URL: url)
-        parser.parseAsync { (result) in
-           
-            if let error = result.error {
-                print("Failed to parse XML feed",  error)
-                return
-            }
+        DispatchQueue.global(qos: .background).async {
+            let parser = FeedParser(URL: url)
             
-            guard let feed = result.rssFeed else { return }
-            let episodes = feed.toEpisodes()
-            completionHandler(episodes)
+            parser.parseAsync { (result) in
+                
+                if let error = result.error {
+                    print("Failed to parse XML feed",  error)
+                    return
+                }
+                
+                guard let feed = result.rssFeed else { return }
+                let episodes = feed.toEpisodes()
+                completionHandler(episodes)
+            }
         }
-        
     }
-    
-    
 }

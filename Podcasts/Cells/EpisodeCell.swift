@@ -24,14 +24,18 @@ class EpisodeCell: UITableViewCell {
             descriptionLabel.text = episode?.description
             
             guard let url = URL(string: episode?.imageUrl?.toSecureHTTPS() ?? "") else { return }
-            
             episodeImageView.sd_setImage(with: url)
             
         }
     }
 
     
-    @IBOutlet weak var episodeImageView: UIImageView!
+    @IBOutlet weak var episodeImageView: UIImageView! {
+        didSet {
+            episodeImageView.clipsToBounds = true
+            episodeImageView.layer.cornerRadius = 20
+        }
+    }
     @IBOutlet weak var pubDateLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel! {
         didSet {

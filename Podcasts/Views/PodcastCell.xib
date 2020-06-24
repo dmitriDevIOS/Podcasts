@@ -23,7 +23,7 @@
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="klv-FO-86z">
-                        <rect key="frame" x="120" y="51.5" width="318" height="66"/>
+                        <rect key="frame" x="120" y="24.5" width="318" height="66"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iks-lD-DSo">
                                 <rect key="frame" x="0.0" y="0.0" width="318" height="21.5"/>
@@ -50,8 +50,8 @@
                     <constraint firstAttribute="trailing" secondItem="klv-FO-86z" secondAttribute="trailing" constant="8" id="7Sd-x0-ZN7"/>
                     <constraint firstItem="klv-FO-86z" firstAttribute="leading" secondItem="aVX-83-u9l" secondAttribute="trailing" constant="12" id="8Fu-Xu-bKc"/>
                     <constraint firstItem="aVX-83-u9l" firstAttribute="top" secondItem="8L8-ez-EHh" secondAttribute="top" constant="8" id="SEh-4N-zp3"/>
+                    <constraint firstItem="yy6-xy-q7h" firstAttribute="top" secondItem="8L8-ez-EHh" secondAttribute="top" constant="50" id="cB7-Nt-atn"/>
                     <constraint firstItem="aVX-83-u9l" firstAttribute="leading" secondItem="8L8-ez-EHh" secondAttribute="leading" constant="8" id="cKd-5E-akP"/>
-                    <constraint firstItem="klv-FO-86z" firstAttribute="centerY" secondItem="8L8-ez-EHh" secondAttribute="centerY" id="px4-Wf-arb"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
